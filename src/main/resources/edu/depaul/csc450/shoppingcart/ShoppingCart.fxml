@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.depaul.csc450.shoppingcart.ShoppingCartController">
+   <children>
+      <SplitPane dividerPositions="0.2613065326633166" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="91.0" prefWidth="598.0" styleClass="header-section">
+               <effect>
+                  <Blend />
+               </effect>
+               <children>
+                  <ImageView fitHeight="102.0" fitWidth="133.0" layoutX="-12.0" layoutY="-9.0" opacity="0.98" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="-12.0" AnchorPane.topAnchor="-9.0">
+                     <image>
+                        <Image url="@23-36-1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="80.0" fitWidth="147.0" layoutX="80.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@logo.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="24.0" fitWidth="19.0" layoutX="386.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@magnifying-glass-solid.svg.png" />
+                     </image>
+                  </ImageView>
+                  <TextField layoutX="223.0" layoutY="30.0" text="Search for something...">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </TextField>
+                  <ImageView fitHeight="34.0" fitWidth="76.0" layoutX="449.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@user-solid.svg.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="38.0" fitWidth="39.0" layoutX="526.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@cart-shopping-solid.svg.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="447.0" layoutY="64.0" text="Sign in" textFill="WHITE" />
+                  <Label layoutX="524.0" layoutY="65.0" text="My cart" textFill="WHITE" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <HBox layoutY="1.0" prefHeight="288.0" prefWidth="598.0">
+                     <children>
+                        <Label minWidth="-Infinity" prefWidth="200.0" text="Label" />
+                        <Label minWidth="-Infinity" prefWidth="200.0" text="Label" />
+                        <Label text="Label" />
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+    <stylesheets>
+        <URL value="@ShoppingCartDesign.css" />
+    </stylesheets>
+</AnchorPane>
