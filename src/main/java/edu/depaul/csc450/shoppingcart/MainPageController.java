@@ -16,6 +16,10 @@ import java.util.Objects;
 import java.net.URL;
 import java.nio.charset.MalformedInputException;
 import java.util.ResourceBundle;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 //import javax.management.openmbean.OpenMBeanAttributeInfoSupport;
 
@@ -24,6 +28,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+
 
 
 public class MainPageController extends Application {
@@ -45,8 +50,12 @@ public class MainPageController extends Application {
     private ImageView searchButton;
 
     @FXML
+    private ImageView userImage;
+
+    @FXML
     private TextField searchTextField;
 
+	private static Logger logger = (Logger) Logger.getLogger(MainPageController.class.getName());  
 
     @Override
     public void start(Stage primaryStage)  {
@@ -68,7 +77,28 @@ public class MainPageController extends Application {
         
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { 
+    	logger.setLevel(Level.INFO);
+		logger.addHandler(new ConsoleHandler());
+    	
+    	 try {
+			FileHandler fileHandler = new FileHandler("/ShoppingCart/logs/logger.log");
+			logger.addHandler(fileHandler);
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			String msgString = e.getMessage();
+			logger.severe(msgString);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			String msgString = e.getMessage();
+			logger.severe(msgString);
+		}
+    	 
+    	 logger.fine("Sample fine message");  
+         logger.info("Sample info message");  
+         logger.warning("Sample warning message");  
+         logger.finest("Sample finest message");  
+         logger.severe("Sample severe message");  
         launch(args);
     }
 

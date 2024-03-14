@@ -82,7 +82,6 @@ public class SignInPageController {
 
 	private Alert alert;
 
-
 	public void switchForm(ActionEvent event) {
 
 		TranslateTransition pageSlider = new TranslateTransition();
@@ -120,6 +119,7 @@ public class SignInPageController {
 					createAccountBtn.setVisible(true);
 					haveAccountBtn.setVisible(false);
 				}
+
 			});
 
 		}
@@ -149,33 +149,55 @@ public class SignInPageController {
 				alert.setHeaderText(null);
 				alert.setContentText("Please complete the form");
 				alert.showAndWait();
-			} else {
-				
-				DatabaseQuery dbQuery = new DatabaseQuery();				
-				
-				String[] iStrings = new String[6];
-				iStrings[0] = firstName.getText();
-				iStrings[1] = lastName.getText();
-				iStrings[2] = userName.getText();
-				iStrings[3] = password.getText();
-				iStrings[4] = (String) securityQuestions.getValue();
-				iStrings[5] = answer.getText();
-				
-				dbQuery.databaseInsertCreateAccount(iStrings);
 
-				alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Informatio Message");
-				alert.setHeaderText(null);
-				alert.setContentText("Account registration successful.");
-				alert.showAndWait();
-				
-				firstName.setText("");
-				lastName.setText("");
-				userName.setText("");
-				password.setText("");
-				securityQuestions.getSelectionModel().clearSelection();
-				answer.setText("");
+			} else {
+
+				boolean flag = true;
+
+				while (flag) {
+					DatabaseQuery dbQuery = new DatabaseQuery();
+
+					String[] iStrings = new String[6];
+					iStrings[0] = firstName.getText();
+					iStrings[1] = lastName.getText();
+					iStrings[2] = userName.getText();
+					iStrings[3] = password.getText();
+					iStrings[4] = (String) securityQuestions.getValue();
+					iStrings[5] = answer.getText();
+
+					try {
+						dbQuery.databaseInsertCreateAccount(iStrings);
+
+						alert = new Alert(AlertType.INFORMATION);
+						alert.setTitle("Informatio Message");
+						alert.setHeaderText(null);
+						alert.setContentText("Account registration successful.");
+						alert.showAndWait();
+
+						clearRegistrationFields();
+						flag = false;
+
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						alert = new Alert(AlertType.ERROR);
+						alert.setTitle("Error Message");
+						alert.setHeaderText(null);
+						alert.setContentText("Account registration failed.");
+						alert.showAndWait();
+						clearRegistrationFields();
+						
+					}
+				}
 			}
 		}
+	}
+
+	private void clearRegistrationFields() {
+		firstName.setText("");
+		lastName.setText("");
+		userName.setText("");
+		password.setText("");
+		securityQuestions.getSelectionModel().clearSelection();
+		answer.setText("");
 	}
 }

@@ -13,6 +13,8 @@ module edu.depaul.csc450.shoppingcart {
     requires com.almasb.fxgl.all;
 	requires javafx.base;
 	requires transitive java.sql;
+	requires org.apache.logging.log4j.core;
+	requires org.apache.log4j;
 
     opens edu.depaul.csc450.shoppingcart to javafx.fxml;
     exports edu.depaul.csc450.shoppingcart;
