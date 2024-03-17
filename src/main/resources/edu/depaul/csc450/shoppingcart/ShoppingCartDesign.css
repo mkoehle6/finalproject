@@ -2,3 +2,7 @@
 .header-section {
     -fx-background-color: linear-gradient(to bottom right, #eebc0a, #6c5605);
 }
+
+.user-image:hover {
+	opacity: 0.3;
+}

@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
+
+import org.apache.logging.log4j.core.async.DiscardingAsyncQueueFullPolicy;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -119,11 +122,10 @@ public class SignInPageController {
 					createAccountBtn.setVisible(true);
 					haveAccountBtn.setVisible(false);
 				}
-
 			});
-
 		}
 	}
+	
 
 	public void populateComboBox() {
 
@@ -144,11 +146,7 @@ public class SignInPageController {
 		if (event.getSource() == signUpBtn) {
 			if (userName.getText().isEmpty() || password.getText().isEmpty() || firstName.getText().isEmpty()
 					|| lastName.getText().isEmpty() || answer.getText().isEmpty()) {
-				alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Error Message");
-				alert.setHeaderText(null);
-				alert.setContentText("Please complete the form");
-				alert.showAndWait();
+				displayErrorMsg("Please complete the form");
 
 			} else {
 
@@ -169,7 +167,7 @@ public class SignInPageController {
 						dbQuery.databaseInsertCreateAccount(iStrings);
 
 						alert = new Alert(AlertType.INFORMATION);
-						alert.setTitle("Informatio Message");
+						alert.setTitle("Information Message");
 						alert.setHeaderText(null);
 						alert.setContentText("Account registration successful.");
 						alert.showAndWait();
@@ -179,17 +177,50 @@ public class SignInPageController {
 
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
-						alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Error Message");
-						alert.setHeaderText(null);
-						alert.setContentText("Account registration failed.");
-						alert.showAndWait();
+						displayErrorMsg("Account registration failed.");
 						clearRegistrationFields();
 						
 					}
 				}
 			}
 		}
+	}
+
+	public void validateLogin(ActionEvent event) {
+		Customer customer = null;
+		
+		if (event.getSource() == loginBtn) {
+			if (signInUsername.getText().isEmpty() || signInPassword.getText().isEmpty())
+		 {
+				displayErrorMsg("Please complete the form");
+
+			} else {
+				String[] iStrings = new String[2];
+				iStrings[0] = signInUsername.getText();
+				iStrings[1] = signInPassword.getText();
+				
+				DatabaseQuery dbQuery = new DatabaseQuery();
+				signInUsername.setText("");
+				signInPassword.setText("");
+
+				customer = dbQuery.databaseQuery(iStrings);
+			
+				if(dbQuery.databaseQuery(iStrings) != null) {
+					System.out.println("Cust: "+ customer.getFirstName());
+			}
+				else {
+					displayErrorMsg("Account not found!");
+				}
+			}
+		}
+	}
+	
+	private void displayErrorMsg(String msg) {
+		alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error Message");
+		alert.setHeaderText(null);
+		alert.setContentText(msg);
+		alert.showAndWait();
 	}
 
 	private void clearRegistrationFields() {
