@@ -24,14 +24,14 @@ public class DatabaseConnection {
 		String url = "jdbc:mysql://localhost:3306/shopping_cart";
 		
 		String username = "user";
-		String password = "user!5555";
+		String password = "user1234";
 		
 	
 		try {
 			connection = DriverManager.getConnection(url, username, password);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			logger.severe(e.getMessage());
+			logger.severe(e.getSQLState());
 		}
 		
 		return connection;

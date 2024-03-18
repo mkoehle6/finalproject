@@ -207,6 +207,7 @@ public class SignInPageController {
 			
 				if(dbQuery.databaseQuery(iStrings) != null) {
 					System.out.println("Cust: "+ customer.getFirstName());
+					//return to main page, display cust name
 			}
 				else {
 					displayErrorMsg("Account not found!");

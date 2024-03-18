@@ -1,37 +1,33 @@
 package edu.depaul.csc450.shoppingcart;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableSelectionModel;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
-
-
 import java.net.URL;
-import java.nio.charset.MalformedInputException;
 import java.util.ResourceBundle;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-
 
 
 public class MainPageController extends Application {
@@ -43,6 +39,9 @@ public class MainPageController extends Application {
     @FXML
     private URL location;
 
+    @FXML
+    private Button addToCartBtn;
+    
     @FXML
     private Label mainSignIn;
 
@@ -62,18 +61,61 @@ public class MainPageController extends Application {
     private ImageView prodImage;
 
     @FXML
-    private TableView<Product> prodTable;                                                                         
+    private TableView<Product> prodTableView;
 
+    @FXML
+    private TableColumn<Product, Integer> productIDCol;
+    
+    @FXML
+    private TableColumn<Product, String> productNameCol;
+
+    @FXML
+    private TableColumn<Product, String> productTypeCol;
+     
+    @FXML
+    private TableColumn<Product, Double> productPriceCol;
+
+    @FXML
+    private TableColumn<Product, Integer> stockRemainCol;
+    
+    private TableSelectionModel<Product> selectionModel;
+    private ObservableList<Product> selectedProducts;
 	private static Logger logger = (Logger) Logger.getLogger(MainPageController.class.getName());  
-
-	@Override
-	public void init() {
+	
+	 
+	
+	@FXML
+	public void initialize() {
+			
+			
+		logger.info("Initialize Method");
+		
+		productIDCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("productID"));
+		productNameCol.setCellValueFactory(new PropertyValueFactory<Product, String>("nameString"));
+		productTypeCol.setCellValueFactory(new PropertyValueFactory<Product, String>("productTypeString"));
+		productPriceCol.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
+		stockRemainCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("quantityInStock"));
+		
+		ProductTable pTable = new ProductTable();
+		prodTableView.setItems(pTable.getProductsList());
+		selectionModel = prodTableView.getSelectionModel();
+    	selectionModel.setSelectionMode(SelectionMode.SINGLE);
+    	
+    	selectedProducts = selectionModel.getSelectedItems();
+    	
+    	selectedProducts.addListener(new ListChangeListener<Product>() {
+    			    public void onChanged(
+    			      Change<? extends Product> change) {
+    			        System.out.println(
+    			          "Selection changed: " + change.getList());
+    			      }
+    	}); 
 	}
+	
 	
     @Override
     public void start(Stage primaryStage) {
-    	
-    	
+    	    	
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainPageController.class.getResource("MainPage.fxml"));
             AnchorPane anchorPane = fxmlLoader.load();
@@ -82,15 +124,12 @@ public class MainPageController extends Application {
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("ShoppingCartDesign.css")).toExternalForm());
 
             primaryStage.setScene(scene);
-            primaryStage.show();   
-        	prodTable = populateProductTable();
-
+            primaryStage.show();             
             
         } 
         catch (IOException e) {
             throw new RuntimeException(e);
-        }
-        
+        }       
     }
 
     public static void main(String[] args) { 
@@ -101,11 +140,9 @@ public class MainPageController extends Application {
 			FileHandler fileHandler = new FileHandler("/ShoppingCart/logs/logger.log");
 			logger.addHandler(fileHandler);
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			String msgString = e.getMessage();
 			logger.severe(msgString);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			String msgString = e.getMessage();
 			logger.severe(msgString);
 		}
@@ -132,27 +169,14 @@ public class MainPageController extends Application {
 		}
     }
     
+  
     public void addToCart() {
     	
+    	//check for cart
+    	// check for customer
+    	ArrayList<Product> myList = new ArrayList<Product>();
+    	System.out.println("here " +selectedProducts.toString());
+    	
+    	 
     }
-    
-    public TableView<Product> populateProductTable() {
-    	TableView<Product> tableView;
-     	ProductTable productTable = new ProductTable();
-    	ObservableList<Product> list = FXCollections.observableArrayList();
-    	ArrayList<Product> products = productTable.getProducts();
-  //  	for(int i=0;i<products.size();i++) {
-  //  		list.add(products.get(i));
-  //  	}
-    	Product p1 =new Product(5,"Car","Auto","12,000",3);
-    	list.add(p1);
-		tableView = new TableView<Product>(list);	
-		//tableView.getColumns().add(productTable.getProdIDColumn());
-//					tableData.getProdIDColumn(), tableData.getProdTypeColumn()
-//					, tableData.getProdCostColumn());
-
-		return tableView;
-    }
-    
-  
 }

@@ -5,14 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 
   
@@ -39,7 +36,7 @@ public class DatabaseQuery {
 		// select customer from customer_db where cust_username = x and cust_pw = x
 		String queryString = "SELECT * FROM customer_db WHERE cust_username = ? AND cust_password = ?";
 		ResultSet resultSet = null;
-		Customer customer = null;
+		Customer customerInstance = null;
 
 		try {
 			logger.info("DatabaseQuery:databaseQuery() try block");
@@ -53,7 +50,8 @@ public class DatabaseQuery {
 				String fname = resultSet.getString("cust_first_name");
 				String lname = resultSet.getString("cust_last_name");
 				String username = resultSet.getString("cust_username");
-				customer = new Customer(fname, lname, username);
+				customerInstance = Customer.getInstance();
+				customerInstance.setCustomerData(fname, lname, username);
 			}
 
 		} catch (SQLException e) {
@@ -61,7 +59,7 @@ public class DatabaseQuery {
 		}
 
 		
-		return customer;
+		return customerInstance;
 
 	}
 
@@ -86,14 +84,12 @@ public class DatabaseQuery {
 
 	}
 	
-	public ArrayList<Product> populateProductTable() {
+	public ObservableList<Product> populateProductTable() {
 		logger.info("DatabaseQuery:databaseQuery()");
-		// select customer from customer_db where cust_username = x and cust_pw = x
 		String queryString = "SELECT * FROM products";
 		ResultSet resultSet = null;
 		Product product = null;
-		ArrayList<Product> productList = new ArrayList<Product>();
-		//ObservableList<Product> productList = FXCollections.observableArrayList();
+		ObservableList<Product> productList = FXCollections.observableArrayList();
 
 		try {
 			logger.info("DatabaseQuery:populateProductTable() try block");
@@ -105,9 +101,11 @@ public class DatabaseQuery {
 				int prodID = resultSet.getInt("prod_id");
 				String prodName = resultSet.getString("prod_name");
 				String prodType = resultSet.getString("prod_type");
-				String prodCost = resultSet.getString("prod_cost");
+				double prodCost = resultSet.getDouble("prod_cost");
 				int prodQtyInStock = resultSet.getInt("prod_quantity");
-				product = new Product(prodID, prodName, prodType, prodCost, prodQtyInStock);
+				if(prodType.equalsIgnoreCase("Food")) {								
+					product = new FoodProduct(prodID, prodName, prodType, prodCost, prodQtyInStock);
+				}
 				productList.add(product);
 			}
 
