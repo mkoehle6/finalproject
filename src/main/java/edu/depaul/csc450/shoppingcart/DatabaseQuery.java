@@ -33,7 +33,6 @@ public class DatabaseQuery {
 	public Customer databaseQuery(String[] loginInfo) {
 		
 		logger.info("DatabaseQuery:databaseQuery()");
-		// select customer from customer_db where cust_username = x and cust_pw = x
 		String queryString = "SELECT * FROM customer_db WHERE cust_username = ? AND cust_password = ?";
 		ResultSet resultSet = null;
 		Customer customerInstance = null;
@@ -79,7 +78,7 @@ public class DatabaseQuery {
 		statement.setString(6, userInfo[5]);
 
 		logger.info("DatabaseQuery:databaseInsertCreateAccount() statement.execute()");
-		// return confirmation
+		/*TODO return confirmation */
 		boolean b = statement.execute();
 
 	}
@@ -103,8 +102,10 @@ public class DatabaseQuery {
 				String prodType = resultSet.getString("prod_type");
 				double prodCost = resultSet.getDouble("prod_cost");
 				int prodQtyInStock = resultSet.getInt("prod_quantity");
+				String imgName = resultSet.getString("prod_image");
+				String description = resultSet.getString("prod_desc");
 				if(prodType.equalsIgnoreCase("Food")) {								
-					product = new FoodProduct(prodID, prodName, prodType, prodCost, prodQtyInStock);
+					product = new FoodProduct(prodID, prodName, prodType, prodCost, prodQtyInStock, imgName, description);
 				}
 				productList.add(product);
 			}
@@ -113,9 +114,7 @@ public class DatabaseQuery {
 			logger.severe(e.getMessage());
 		}
 
-		
-		return productList;
-	
+		return productList;	
 	}
 	
 }

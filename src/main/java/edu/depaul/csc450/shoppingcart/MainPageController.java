@@ -14,7 +14,10 @@ import javafx.scene.control.TableSelectionModel;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.net.URL;
@@ -27,6 +30,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 
@@ -76,40 +80,74 @@ public class MainPageController extends Application {
     private TableColumn<Product, Double> productPriceCol;
 
     @FXML
+    private TableColumn<Product, String> prodDescCol;
+    
+    @FXML
+    private TableColumn<Product, String> prodImgCol;
+    
+    @FXML
     private TableColumn<Product, Integer> stockRemainCol;
+    
     
     private TableSelectionModel<Product> selectionModel;
     private ObservableList<Product> selectedProducts;
 	private static Logger logger = (Logger) Logger.getLogger(MainPageController.class.getName());  
+	private final String path = "src/main/resources/edu/depaul/csc450/shoppingcart/images/productimages/";
 	
-	 
 	
 	@FXML
 	public void initialize() {
-			
-			
-		logger.info("Initialize Method");
+						
+		logger.info("Initialize Method");				
 		
 		productIDCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("productID"));
 		productNameCol.setCellValueFactory(new PropertyValueFactory<Product, String>("nameString"));
 		productTypeCol.setCellValueFactory(new PropertyValueFactory<Product, String>("productTypeString"));
 		productPriceCol.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
+		prodDescCol.setCellValueFactory(new PropertyValueFactory<Product, String>("description"));
 		stockRemainCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("quantityInStock"));
+		prodImgCol.setCellValueFactory(new PropertyValueFactory<Product, String>("imageName"));
 		
 		ProductTable pTable = new ProductTable();
 		prodTableView.setItems(pTable.getProductsList());
 		selectionModel = prodTableView.getSelectionModel();
     	selectionModel.setSelectionMode(SelectionMode.SINGLE);
     	
-    	selectedProducts = selectionModel.getSelectedItems();
-    	
+    	selectionModel.selectFirst();
+    	selectedProducts = selectionModel.getSelectedItems();   
+    	Image image = displayProdImg(selectedProducts.get(0).getImageName());
+    	prodImage.setImage(image);
     	selectedProducts.addListener(new ListChangeListener<Product>() {
     			    public void onChanged(
     			      Change<? extends Product> change) {
+    			    	Image image = displayProdImg(selectedProducts.get(0).getImageName());
+    			    	prodImage.setImage(image);
     			        System.out.println(
     			          "Selection changed: " + change.getList());
     			      }
     	}); 
+	}
+
+
+	private Image displayProdImg(String imgString) {
+		InputStream inputStream = null;
+		Image image;
+		
+		try {
+			
+			StringBuilder sBuilder = new StringBuilder().append(path).append(imgString);
+			
+			System.out.println("path " + sBuilder);
+			inputStream = new FileInputStream(sBuilder.toString());
+			
+			System.out.print(inputStream.toString());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		image = new Image(inputStream);
+		return image;
 	}
 	
 	
@@ -130,6 +168,8 @@ public class MainPageController extends Application {
         catch (IOException e) {
             throw new RuntimeException(e);
         }       
+        
+       
     }
 
     public static void main(String[] args) { 
@@ -166,6 +206,7 @@ public class MainPageController extends Application {
 		} catch (Exception e) {
 			String msgString = e.getMessage();
 			logger.severe(msgString);
+			e.printStackTrace();
 		}
     }
     
@@ -178,5 +219,9 @@ public class MainPageController extends Application {
     	System.out.println("here " +selectedProducts.toString());
     	
     	 
+    }
+    
+    public void displayProduct() {
+    	
     }
 }

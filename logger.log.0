@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2024-03-14T06:50:40.806381700Z</date>
+  <millis>1710399040806</millis>
+  <nanos>381700</nanos>
+  <sequence>0</sequence>
+  <logger>edu.depaul.csc450.shoppingcart.MainPageController</logger>
+  <level>INFO</level>
+  <class>edu.depaul.csc450.shoppingcart.MainPageController</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Sample info message</message>
+</record>
+<record>
+  <date>2024-03-14T06:50:40.822395Z</date>
+  <millis>1710399040822</millis>
+  <nanos>395000</nanos>
+  <sequence>1</sequence>
+  <logger>edu.depaul.csc450.shoppingcart.MainPageController</logger>
+  <level>WARNING</level>
+  <class>edu.depaul.csc450.shoppingcart.MainPageController</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Sample warning message</message>
+</record>
+<record>
+  <date>2024-03-14T06:50:40.823396200Z</date>
+  <millis>1710399040823</millis>
+  <nanos>396200</nanos>
+  <sequence>2</sequence>
+  <logger>edu.depaul.csc450.shoppingcart.MainPageController</logger>
+  <level>SEVERE</level>
+  <class>edu.depaul.csc450.shoppingcart.MainPageController</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Sample severe message</message>
+</record>
+</log>

@@ -13,7 +13,7 @@
 
 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="SignInPage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.depaul.csc450.shoppingcart.SignInPageController">
    <children>
-    <AnchorPane fx:id="accountSignInPage" layoutX="300.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0">
+    <AnchorPane  layoutX="300.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0">
          <children>
             <Label layoutX="45.0" layoutY="151.0" text="Sign into your account">
                <font>
@@ -28,6 +28,7 @@
                </font>
             </Button>
             <Hyperlink fx:id="passwordReset" layoutX="45.0" layoutY="322.0" text="Forgot password?" />
+            <Hyperlink fx:id="retHome" layoutX="180.0" layoutY="322.0" onAction="#switchMainScene" text="Return home" />
          </children>
       </AnchorPane>
     <AnchorPane fx:id="needAccountPage" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: linear-gradient(to bottom, gold, black);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="0.0">

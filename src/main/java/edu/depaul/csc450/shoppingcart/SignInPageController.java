@@ -1,31 +1,27 @@
 package edu.depaul.csc450.shoppingcart;
 
+import javafx.animation.TranslateTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
-
-import org.apache.logging.log4j.core.async.DiscardingAsyncQueueFullPolicy;
-
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.util.Duration;
-import javafx.animation.TranslateTransition;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class SignInPageController {
 
@@ -58,6 +54,9 @@ public class SignInPageController {
 
 	@FXML
 	private Hyperlink passwordReset;
+	
+	@FXML
+	private Hyperlink retHome;
 
 	@FXML
 	private TextField answer;
@@ -84,7 +83,9 @@ public class SignInPageController {
 	private ComboBox<?> securityQuestions;
 
 	private Alert alert;
+	private static Logger logger = (Logger) Logger.getLogger(SignInPageController.class.getName());  
 
+	
 	public void switchForm(ActionEvent event) {
 
 		TranslateTransition pageSlider = new TranslateTransition();
@@ -178,8 +179,7 @@ public class SignInPageController {
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						displayErrorMsg("Account registration failed.");
-						clearRegistrationFields();
-						
+						clearRegistrationFields();						
 					}
 				}
 			}
@@ -215,6 +215,23 @@ public class SignInPageController {
 			}
 		}
 	}
+	
+    public void switchMainScene(Event event)  {
+    	Stage stage = null;
+    	
+        try {
+			FXMLLoader fxmlLoader = new FXMLLoader(MainPageController.class.getResource("MainPage.fxml"));
+			AnchorPane anchorPane = fxmlLoader.load();
+			stage = (Stage)((Node)event.getSource()).getScene().getWindow();      
+			Scene scene = new Scene(anchorPane, 600, 400);
+			stage.setScene(scene);
+	        stage.show();
+		} catch (Exception e) {
+			String msgString = e.getMessage();
+			logger.severe(msgString);
+			e.printStackTrace();
+		}
+    }
 	
 	private void displayErrorMsg(String msg) {
 		alert = new Alert(AlertType.ERROR);
